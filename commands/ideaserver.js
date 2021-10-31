@@ -27,7 +27,7 @@ module.exports = {
         try {
           let ideaEmbed = new MessageEmbed()
           .setAuthor(message.author.username, message.author.avatarURL())
-          .setDescription("**Idea:** " + message.content.substring(5).trim()+
+          .setDescription("**Idea:** " + message.content.substring(this.name.length+1).trim()+
           `\n\nSend \`+${this.name} your idea\` In <#${botChannel}> To Do This`)
           .setColor("#4287f5")
           var ideaMsg = await message.client.channels.cache.get(ideaChannel).send(ideaEmbed).catch(console.error);

@@ -17,7 +17,7 @@ module.exports = {
   async execute(message) {
     if (message.content.startsWith(`+${this.name}`)) {
 
-      if (message.content.substring(5).trim() == "") return message.reply(this.usage.replace("%name%", this.name)).catch(console.error);
+      if (message.content.substring(this.name.length+1).trim() == "") return message.reply(this.usage.replace("%name%", this.name)).catch(console.error);
 
       let timeout = await db.get(message.author.id + this.name);
       if (timeout > Date.now()) {
