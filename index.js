@@ -75,7 +75,6 @@ client.on("message", async (message) => {
   }
 
   client.functions.forEach(func=> {
-    console.log(func);
     func.execute(message);
   });
 });
