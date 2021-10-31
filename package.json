@@ -5,14 +5,22 @@
   "main": "index.js",
   "dependencies": {
     "@replit/database": "^2.0.1",
-    "node": "^17.0.1",
-    "discord.js": "^12.5.1"
+    "discord.js": "^12.5.3",
+    "node": "^17.0.1"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khaled-0/SWBot-Node.git"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khaled-0/SWBot-Node/issues"
+  },
+  "homepage": "https://github.com/khaled-0/SWBot-Node#readme"
 }

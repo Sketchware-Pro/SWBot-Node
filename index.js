@@ -1,23 +1,15 @@
-const {
-  Client,
-  Collection
-} = require("discord.js");
+const { Client,Collection } = require("discord.js");
 const botChannelId = process.env['botChannelId'];
-const {
-  readdirSync
-} = require("fs");
-const {
-  join
-} = require("path");
+const { readdirSync } = require("fs");
+const { join } = require("path");
+const { escapeRegex } = require("./utils");
 const  PRUNING = process.env['PRUNING'];
 
 const client = new Client({
   disableMentions: "everyone",
   restTimeOffset: 0
 });
-function escapeRegex(string) {
-  return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-}
+
 const TOKEN = process.env['TOKEN']
 client.login(TOKEN);
 client.commands = new Collection();
@@ -30,6 +22,7 @@ client.on("ready", () => {
   console.log(`${client.user.username} ready!`);
   client.user.setActivity("Sketchware Pro Bot Scuffed Version");
 });
+
 
 /**
 * Import all commands
@@ -46,8 +39,9 @@ for (const file of commandFiles) {
 const funcFiles = readdirSync(join(__dirname, "functions")).filter((file) => file.endsWith(".js"));
 for (const file of funcFiles) {
   const funct = require(join(__dirname, "functions", `${file}`));
-  client.functions.set(funct);
+  client.functions.set(funct,funct);
 }
+
 
 
 client.on("message", async (message) => {
@@ -77,16 +71,13 @@ client.on("message", async (message) => {
       }
       return command.execute(message, args);
     }
+    return;
   }
+
   client.functions.forEach(func=> {
+    console.log(func);
     func.execute(message);
   });
 });
-
-module.exports = {
-  async sendMessage(channel,
-    message) {
-    return client.channels.cache.get(channel).send(message);
-  }
-};
-//require("http").createServer((_, res) => res.end("Alive")).listen(8080)
+//KeepAlive
+require("http").createServer((_, res) => res.end("Alive")).listen(8080)

@@ -12,5 +12,8 @@ module.exports = {
     else if (minutes < 60) return minutes + " Min";
     else if (hours < 24) return hours + " Hrs";
     else return days + " Days";
+  },
+  escapeRegex(string) {
+  return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
   }
 };
