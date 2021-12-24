@@ -121,5 +121,12 @@ client.on("messageCreate", async (message) => {
 
 });
 
+/*
+* Prevents bot from crashing if exception occurs
+*/
+process.on('uncaughtException', function(error) {
+  console.log(error.stack);
+});
+
 //KeepAlive
 require("http").createServer((_, res) => res.end("Alive")).listen(8080)
