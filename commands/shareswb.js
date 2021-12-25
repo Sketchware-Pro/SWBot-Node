@@ -1,4 +1,4 @@
-const { WebhookClient, Attachment } = require("discord.js");
+const { WebhookClient, MessageAttachment } = require("discord.js");
 const swbChannel = process.env['swbChannelId']
 const botChannel = process.env['botChannelId']
 
@@ -16,7 +16,6 @@ module.exports = {
     let swbDescription = args.length != 0 ?
       args.toString().replaceAll(",", " ") : "I would like to present an swb to everyone"
 
-
     if (!attachmentObj)
       return await message.reply("You need to attach an swb file")
     if (!attachmentObj.name.endsWith(".swb"))
@@ -24,7 +23,7 @@ module.exports = {
 
     //Get Webhook for Project Channel
     const webhook = await getWebHook(message.client, swbChannel).then((hookUrl) => (new WebhookClient({ url: hookUrl })));
-    const attachment = new Attachment(attachmentObj.url, attachmentObj.name)
+    const attachment = new MessageAttachment(attachmentObj.url, attachmentObj.name)
 
     //Send Embed using Webhook
     await webhook.send({

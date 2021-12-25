@@ -62,8 +62,11 @@ client.on('guildMemberRemove', (member) => updateMembers(member.guild))
 */
 
 client.on('messageDelete', (message) => {
+  // content is null or deleted embed
   if (message.partial ||
-    (message.embeds.length && !message.content)) return; // content is null or deleted embed
+    (message.embeds.length && !message.content)) return;
+  if (message.author.bot) return; // Ignore bots deletion
+
 
   db.set("snipe" + [message.channel.id],
     {
@@ -84,6 +87,16 @@ client.on("messageCreate", async (message) => {
   if (message.author.id == client.user.id) return;
   if (!message.guild) return;
 
+  /**
+  * Firstly looping through all the functions
+  */
+  client.functions.forEach(func => {
+    func.execute(message);
+  });
+
+  /**
+  * Begin parsing if message is command
+  */
   //This basically means prefix is +
   const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex("+")})\\s*`);
   if (!prefixRegex.test(message.content)) return;
@@ -108,14 +121,6 @@ client.on("messageCreate", async (message) => {
     }
     return command.execute(message, args);
   }
-
-  /**
-  * If not a command then looping through all the functions
-  */
-  client.functions.forEach(func => {
-    func.execute(message);
-  });
-
 });
 
 /*
