@@ -1,4 +1,6 @@
 module.exports = {
+  name: "Petition",
+  description: "For holding petitions I guess",
   async execute(message) {
     if (message.content.length < 8) return;
     if (!message.content.toLowerCase().includes("petition")) return;

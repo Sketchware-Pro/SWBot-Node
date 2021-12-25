@@ -1,5 +1,5 @@
 const { WebhookClient, MessageEmbed } = require("discord.js");
-const ideaChannel = process.env['ideaChannelId']
+const ideaChannel = process.env['contestChannelId']
 const botChannel = process.env['botChannelId']
 const replitDB = require("@replit/database");
 const {
@@ -9,8 +9,8 @@ const db = new replitDB();
 const ideaTimeout = 43200000; //12 hrs
 
 module.exports = {
-  name: "idea",
-  description: "Send Your Sketchware Pro Ideas To A Dedicated Channel",
+  name: "contestidea",
+  description: "Send Your Contest Ideas To A Dedicated Channel",
   usage: "Usage: " + `Send \`+%name% your idea\` In <#${botChannel}>`,
   async execute(message) {
     if (!message.content.startsWith(`+${this.name}`)) return;

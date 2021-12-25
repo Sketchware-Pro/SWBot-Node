@@ -4,8 +4,6 @@ const { readdirSync } = require("fs");
 const { join } = require("path");
 const { escapeRegex, getWebHook } = require("./utils");
 const replitDB = require("@replit/database");
-
-const PRUNING = process.env['PRUNING'];
 const guildID = '903192273267859487'
 
 const client = new Client({
@@ -59,7 +57,6 @@ const updateMembers = (guild) => {
 client.on('guildMemberAdd', (member) => updateMembers(member.guild))
 client.on('guildMemberRemove', (member) => updateMembers(member.guild))
 
-
 /**
 * Store Deleted Messages for Expo.. Umm, Sniping Purposes
 */
@@ -101,14 +98,14 @@ client.on("messageCreate", async (message) => {
     client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
   if (command) {
-    /*if (message.channel.id != botChannelId) {
-      if (!PRUNING) return message.reply(`Use <#${botChannelId}> else Nub`);
+    if (message.channel.id != botChannelId) {
+      if (!false) return message.reply(`Use <#${botChannelId}> else Nub`);
       return message.reply(`Use <#${botChannelId}> else Nub`).then(msg => {
         msg.delete({
           timeout: 12000
         });
       });
-    }*/
+    }
     return command.execute(message, args);
   }
 
