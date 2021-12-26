@@ -2,7 +2,7 @@ const { Client, Collection, Intents, WebhookClient } = require("discord.js");
 const botChannelId = process.env['botChannelId'];
 const { readdirSync } = require("fs");
 const { join } = require("path");
-const { escapeRegex, getWebHook } = require("./utils");
+const { escapeRegex } = require("./utils");
 const replitDB = require("@replit/database");
 const guildID = process.env['guildID']
 

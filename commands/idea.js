@@ -42,7 +42,8 @@ module.exports = {
       await ideaMsg.react("<:upvote:833702317098008646>")
       await ideaMsg.react("<:downvote:833702170306150440>")
       await message.delete();
-      await db.set(message.author.id + this.name, Date.now() + ideaTimeout);
+      if (!message.member.permissions.has('MANAGE_MESSAGES'))
+        await db.set(message.author.id + this.name, Date.now() + ideaTimeout);
     }
   }
 };
