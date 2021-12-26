@@ -22,7 +22,7 @@ client.functions = new Collection();
 
 client.on("ready", () => {
   console.log(`${client.user.username} ready!`);
-  client.user.setActivity("Listening to +help");
+  client.user.setActivity("with your life | +help");
   updateMembers(client.guilds.cache.get(guildID))
 });
 
