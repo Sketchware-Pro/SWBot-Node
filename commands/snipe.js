@@ -4,6 +4,7 @@ const db = new replitDB()
 
 module.exports = {
   name: "snipe",
+  anychannel: true,
   usage: "Send ``+snipe`` in the targeted channel",
   description: "Get last message which is deleted with message Author and Image(If any)",
   async execute(message) {

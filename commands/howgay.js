@@ -10,6 +10,7 @@ function get_algorithomic_gay_count(input) {
 
 module.exports = {
   name: "howgay",
+  anychannel: true,
   description: "self-explanatory",
   usage: "Usage: " + `\`+%name% <@some g*h ppl>`,
   async execute(message, args) {

@@ -9,7 +9,7 @@ module.exports = {
   description: "did someone said linux?",
   async execute(message) {
     if (message.content.toLowerCase().trim() == ("interject")) {
-      await message.reply(interjectString.replace("$author", `<@${message.author.id}>`)).catch(console.error);
+      await message.channel.send(interjectString.replace("$author", `<@${message.author.id}>`)).catch(console.error);
       return await message.delete()
     }
   }

@@ -111,7 +111,7 @@ client.on("messageCreate", async (message) => {
     client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
   if (command) {
-    if (message.channel.id != botChannelId) {
+    if (!command.anychannel && message.channel.id != botChannelId) {
       if (!false) return message.reply(`Use <#${botChannelId}> else Nub`);
       return message.reply(`Use <#${botChannelId}> else Nub`).then(msg => {
         msg.delete({
