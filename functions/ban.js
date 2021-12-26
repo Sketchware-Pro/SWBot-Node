@@ -19,7 +19,7 @@ module.exports = {
       const args = message.content.slice(isWarning ? 5 : 4).trim().split(/ +/);
 
       let who = args[0] ? args[0] : `<@${message.author.id}>`;
-      var reason = args[1] ? args[1].toString() : (isWarning ? "" : "no reason given.");
+      var reason = args[1] ? args.toString().replace(arg[0], "").replace(",", " ") : (isWarning ? "" : "no reason given.");
 
       let description;
       if (isWarning) {
