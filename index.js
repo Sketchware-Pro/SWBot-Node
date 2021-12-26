@@ -4,7 +4,7 @@ const { readdirSync } = require("fs");
 const { join } = require("path");
 const { escapeRegex, getWebHook } = require("./utils");
 const replitDB = require("@replit/database");
-const guildID = '903192273267859487'
+const guildID = process.env['guildID']
 
 const client = new Client({
   restTimeOffset: 0,
@@ -22,7 +22,7 @@ client.functions = new Collection();
 
 client.on("ready", () => {
   console.log(`${client.user.username} ready!`);
-  client.user.setActivity("Sketchware Pro Bot Scuffed Version");
+  client.user.setActivity("Listening to +help");
   updateMembers(client.guilds.cache.get(guildID))
 });
 
@@ -47,7 +47,7 @@ for (const file of funcFiles) {
 /**
 * Members Counter
 */
-const counterChannelId = '921005213618438214'
+const counterChannelId = process.env['memberCounterChannelId']
 const updateMembers = (guild) => {
   client.channels.fetch(counterChannelId).then(channel => {
     channel.setName(`${guild.memberCount.toLocaleString()}-members`) //Allowed only 2 times every 10 min lol
