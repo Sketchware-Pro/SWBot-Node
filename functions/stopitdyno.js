@@ -6,7 +6,7 @@ module.exports = {
     if (message.content.endsWith("Watch your language.")) {
       message.channel.send("Dyno, stop it, get some help")
         .then(msg => {
-          setTimeout(() => msg.delete(), 5000)
+          setTimeout(() => msg.delete(), 6000)
         })
         .catch(console.error);
     }

@@ -17,13 +17,14 @@ module.exports = {
         );
       });
 
-      helpEmbed.addField("** More Passive Stuffs**", " These are automatically executed", false)
+      helpEmbed.addField("** More Passive Stuffs (Mostly For Fun)**", " These are automatically executed", false)
       message.client.functions.each((cmd) => {
-        helpEmbed.addField(
-          `**${cmd.name}**`,
-          `${cmd.description}`,
-          true
-        );
+        if (!cmd.hidden)
+          helpEmbed.addField(
+            `**${cmd.name}**`,
+            `${cmd.description}`,
+            true
+          );
       });
       return message.reply({ embeds: [helpEmbed] });
     }

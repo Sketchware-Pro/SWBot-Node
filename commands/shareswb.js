@@ -13,8 +13,9 @@ module.exports = {
   async execute(message, args) {
     if (!message.content.startsWith(`+${this.name}`)) return;
     let attachmentObj = message.attachments.first()
-    let swbDescription = args.length != 0 ?
-      args.toString().replaceAll(",", " ") : "I would like to present an swb to everyone"
+
+    let swbDescription = (args.length != 0 ?
+      args.toString().replaceAll(",", " ") : "I would like to present an swb to everyone") + `\n\n${this.usage.replace("%name%", this.name).replace("Usage:", "BTW,")}`
 
     if (!attachmentObj)
       return await message.reply("You need to attach an swb file")
