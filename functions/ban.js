@@ -1,8 +1,8 @@
 const { WebhookClient, MessageEmbed } = require("discord.js");
 const replitDB = require("@replit/database");
-const { escapeRegex, getWebHook } = require("../utils");
+const { getWebHook } = require("../utils");
 const db = new replitDB();
-const banTimeout = 300; //5min
+const banTimeout = 300000; //5min
 
 module.exports = {
   name: "Warn & Ban",
@@ -15,6 +15,7 @@ module.exports = {
       let waitTime = msToTime(timeout - Date.now())
       await message.reply(`Slow down! You need to wait ${waitTime} more.`).catch(console.error);
     } else {
+      
       var isWarning = message.content.startsWith("+warn")
       const args = message.content.slice(isWarning ? 5 : 4).trim().split(/ +/);
 
@@ -23,12 +24,12 @@ module.exports = {
 
       let description;
       if (isWarning) {
-        description = `***${who} has been warned. ***`
+        description = `***${who} has been warned.***`
         if (reason.length != 0) {
-          description = `***${who} has been warned. ***||** ${reason}**`
+          description = `***${who} has been warned.***||** ${reason}**`
         }
       } else {
-        description = `***${who} has been banned. ***||** ${reason}**`
+        description = `***${who} has been banned.***||** ${reason}**`
       }
       let embed = new MessageEmbed()
         .setDescription(description)
