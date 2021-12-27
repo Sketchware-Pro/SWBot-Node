@@ -7,6 +7,7 @@ There really is a Linux, and these people are using it, but it is just a part of
 module.exports = {
   name: "Interject",
   description: "did someone said linux?",
+  usage: "Just `interject`",
   async execute(message) {
     if (message.content.toLowerCase().trim() == ("interject")) {
       await message.channel.send(interjectString.replace("$author", `<@${message.author.id}>`)).catch(console.error);

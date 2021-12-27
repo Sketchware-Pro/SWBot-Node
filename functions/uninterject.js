@@ -13,6 +13,7 @@ Last, I'd like to point out that we Linux and GNU users shouldn't be fighting am
 module.exports = {
   name: "Uninterject",
   description: "did someone has just interjected?",
+   usage: "Just `uninterject`",
   async execute(message) {
     if (message.content.toLowerCase().trim() == ("uninterject")) {
       await message.channel.send(uninterjectString1.replace("$author", `<@${message.author.id}>`)).catch(console.error);

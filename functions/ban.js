@@ -1,12 +1,13 @@
 const { WebhookClient, MessageEmbed } = require("discord.js");
 const replitDB = require("@replit/database");
-const { getWebHook } = require("../utils");
+const { msToTime, getWebHook } = require("../utils");
 const db = new replitDB();
 const banTimeout = 300000; //5min
 
 module.exports = {
   name: "Warn & Ban",
   description: "Totally legit not fake warn and ban",
+  usage: "Usage: " + `\`+%name% <someone> <optional reason>\``,
   async execute(message) {
     if (!(message.content.startsWith("+warn") || message.content.startsWith("+ban"))) return;
 
@@ -15,7 +16,7 @@ module.exports = {
       let waitTime = msToTime(timeout - Date.now())
       await message.reply(`Slow down! You need to wait ${waitTime} more.`).catch(console.error);
     } else {
-      
+
       var isWarning = message.content.startsWith("+warn")
       const args = message.content.slice(isWarning ? 5 : 4).trim().split(/ +/);
 

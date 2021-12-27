@@ -1,4 +1,4 @@
-const { Client, Collection, Intents, WebhookClient } = require("discord.js");
+const { Client, Collection, Intents } = require("discord.js");
 const botChannelId = process.env['botChannelId'];
 const { readdirSync } = require("fs");
 const { join } = require("path");
@@ -41,7 +41,7 @@ for (const file of commandFiles) {
 const funcFiles = readdirSync(join(__dirname, "functions")).filter((file) => file.endsWith(".js"));
 for (const file of funcFiles) {
   const funct = require(join(__dirname, "functions", `${file}`));
-  client.functions.set(funct, funct);
+  client.functions.set(funct.name.toLowerCase(), funct);
 }
 
 /**
