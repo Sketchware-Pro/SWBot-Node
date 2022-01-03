@@ -26,7 +26,8 @@ module.exports = {
       .setColor("#202225");
 
     /**
-     * Check if message is a command and execute (only from mods & admins)
+     * Check if message is a command and execute (only from mods & admins) 
+     * TODO: Seperate them in different files
      */
     if (message.member.permissions.has('MANAGE_MESSAGES')) {
 
@@ -121,6 +122,50 @@ module.exports = {
         }
       }
 
+      //Edit an autoresponse
+      if (message.content.startsWith("+autoresponse edit")) {
+        await message.reply(`Please send the \`Pattern\` of the autoresponse you want to edit.`);
+        const msg_filter = (m) => m.author.id === message.author.id;
+        const collectedPattern = await message.channel.awaitMessages({ filter: msg_filter, max: 1, time: responseTimeout });
+
+        if (!collectedPattern.first()) return message.reply('Autoresponse edit failed! Reason: Timeout');
+
+        let pattern = collectedPattern.first().content
+
+        if (!autoResponsesList[pattern]) return await message.reply("Failed to edit autoresponse! Reason: Not found")
+
+        let oldResponse = autoResponsesList[pattern]
+        await message.reply(`Received Pattern \`${pattern}\`, Which has the following response:\n \`${oldResponse}\`\nPlease send new response for the pattern.`);
+
+        const collectedNewResponse = await message.channel.awaitMessages({ filter: msg_filter, max: 1, time: responseTimeout * 5 })
+
+        if (!collectedNewResponse.first()) return message.reply('Autoresponse edit failed! Reason: Timeout');
+
+        let newResponse = collectedNewResponse.first().content
+
+        await message.reply(`Received new response \`${newResponse}\`, For the pattern:\n \`${pattern}\`\nSave it?  \`Y\` / \`N\``);
+
+        const collectedConfirmation = await message.channel.awaitMessages({ filter: msg_filter, max: 1, time: responseTimeout })
+
+        if (!collectedConfirmation.first()) return message.reply('Autoresponse edit failed! Reason: Timeout');
+
+        let confirmation = collectedConfirmation.first().content
+        if (confirmation.toUpperCase() == "Y") {
+          autoResponsesList[pattern] = newResponse
+          fs.writeFile(dataPath, JSON.stringify(autoResponsesList), async function(err) {
+            if (err) {
+              await message.reply("Autoresponse edit failed! Reason: Error")
+              autoResponsesList[pattern] = oldResponse
+              return console.log(err)
+            }
+            updateAutoResopnseData()
+            return await message.reply("Autoresponse edit complete.")
+          });
+        } else {
+          return await message.reply("Autoresponse edit aborted")
+        }
+      }
+
       //Get list of all autoresponses
       if (message.content == "+autoresponse list") {
         for (let ares in autoResponsesList) {
@@ -140,6 +185,7 @@ module.exports = {
     /**
     * Match the message and reply
     */
+
     let messageBody = message.content.replace("\n", "");
     for (let keyword in autoResponsesList) {
       let pattern = new RegExp(keyword, 'i');
