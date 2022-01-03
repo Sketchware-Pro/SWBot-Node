@@ -16,6 +16,8 @@ client.login(TOKEN);
 client.commands = new Collection();
 client.functions = new Collection();
 
+client.autoresponder = require(join(__dirname, "autoresponse", "autoresponse.js"));
+
 /**
 * Client Events
 */
@@ -50,7 +52,7 @@ for (const file of funcFiles) {
 const counterChannelId = process.env['memberCounterChannelId']
 const updateMembers = (guild) => {
   client.channels.fetch(counterChannelId).then(channel => {
-    channel.setName(`${guild.memberCount.toLocaleString()}-members`) //Allowed only 2 times every 10 min lol
+    channel.setName(`${guild.memberCount.toLocaleString()}-members`) //Allowed only 2 times every 10 min 😔
   })
 }
 
@@ -86,9 +88,15 @@ client.on('messageDelete', (message) => {
 client.on("messageCreate", async (message) => {
   if (message.author.id == client.user.id) return;
   if (!message.guild) return;
+  if (message.webhookId) return;
 
   /**
-  * Firstly looping through all the functions
+  * Call autoresponse to maatch the message
+  */
+  client.autoresponder.execute(message)
+
+  /**
+  * Looping through all the functions
   */
   client.functions.forEach(func => {
     func.execute(message);

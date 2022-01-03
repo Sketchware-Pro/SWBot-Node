@@ -20,17 +20,17 @@ module.exports = {
       var isWarning = message.content.startsWith("+warn")
       const args = message.content.slice(isWarning ? 5 : 4).trim().split(/ +/);
 
-      let who = args[0] ? args[0] : `<@${message.author.id}>`;
+      let who = args[0] ? args[0] : `${message.author}`;
       var reason = args[1] ? args.toString().replace(args[0], "").replaceAll(",", " ") : (isWarning ? "" : "no reason given.");
 
       let description;
       if (isWarning) {
         description = `***${who} has been warned.***`
         if (reason.length != 0) {
-          description = `***${who} has been warned.***||** ${reason}**`
+          description = `***${who} has been warned.*** **|| ${reason}**`
         }
       } else {
-        description = `***${who} has been banned.***||** ${reason}**`
+        description = `***${who} has been banned.*** **|| ${reason}**`
       }
       let embed = new MessageEmbed()
         .setDescription(description)
