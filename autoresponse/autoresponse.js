@@ -21,11 +21,6 @@ module.exports = {
     let embed = new MessageEmbed()
       .setColor("#202225");
 
-    if (message.content.startsWith("+index")) {
-
-      console.log(autoResponsesList[Object.keys(autoResponsesList)[1]])
-    } //message.content.replace("+index")
-
     /**
      * Check if message is a command and execute (only from mods & admins) 
      *
@@ -42,6 +37,7 @@ module.exports = {
       require("./create").execute(message, autoResponsesList, updateAutoResopnseData, responseTimeout)
       require("./delete").execute(message, autoResponsesList, updateAutoResopnseData, responseTimeout)
       require("./edit").execute(message, autoResponsesList, updateAutoResopnseData, responseTimeout)
+      require("./setignored").execute(message, autoResponsesList, updateAutoResopnseData, responseTimeout)
       require("./help").execute(message, autoResponsesList, responseTimeout)
       require("./listall").execute(message, autoResponsesList)
 
