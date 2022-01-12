@@ -44,14 +44,30 @@ module.exports = {
 
     let confirmation = collectedConfirmation.first().content
     if (confirmation.toUpperCase() == "Y") {
-      autoResponsesList[pattern] = {
-        "response": newResponse
+      let ignoredChannels = autoResponsesList[pattern].response
+      if (ignoredChannels) {
+        autoResponsesList[pattern] = {
+          "response": newResponse,
+          "ignoredChannels": ignoredChannels
+        }
+      } else {
+        autoResponsesList[pattern] = {
+          "response": newResponse
+        }
       }
+
       fs.writeFile(dataPath, JSON.stringify(autoResponsesList), async function(err) {
         if (err) {
           await message.reply("Autoresponse edit failed! Reason: Error")
-          autoResponsesList[pattern] = {
-            "response": oldResponse
+          if (ignoredChannels) {
+            autoResponsesList[pattern] = {
+              "response": newResponse,
+              "ignoredChannels": ignoredChannels
+            }
+          } else {
+            autoResponsesList[pattern] = {
+              "response": newResponse
+            }
           }
           return console.log(err)
         }
