@@ -42,6 +42,7 @@ module.exports = {
         message.client.functions.find((cmd) => cmd.name.toLowerCase().startsWith(args[0].toLowerCase()));
     }
     if (!cmd) return message.reply("Don't do fake, do real")
+    if (cmd.hidden) return message.reply("Ssssh.. you're not supposed to see that")
     if (!cmd.usage) return message.reply("This is not a thing to use, It happens automatically upon certain condition")
 
     let helpEmbed = new MessageEmbed()
