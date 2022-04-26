@@ -91,6 +91,45 @@ client.on("messageCreate", async (message) => {
   if (message.webhookId) return;
 
   /**
+  *Check for #sw-ideas.. status reply 
+  */
+  if (message.channelId == process.env['ideaChannelId']
+    || message.channelId == process.env['ideaserverChn']) {
+    if (message.type == "REPLY"
+      && message.content.startsWith("+")
+      && (message.member.roles.cache.has("792810255750791178") //Main Modder
+        || message.member.roles.cache.has("792810584961056830") //Admin
+        || message.member.roles.cache.has("800010469871058964"))) { //Contributor
+
+      //TODO: Get webhook id programatically
+      if (message.mentions.repliedUser.id == "924661376520187935") { //Webhook id 
+
+        const targetMessage = await message.channel.messages.fetch(message.reference.messageId);
+
+        if (message.content.startsWith("+done")) {
+          await targetMessage.reactions.removeAll().catch(console.error);
+          await targetMessage.react("✅").catch(console.error);
+          await message.delete()
+        }
+
+        if (message.content.startsWith("+no")) {
+          await targetMessage.reactions.removeAll().catch(console.error);
+          await targetMessage.react("❌").catch(console.error);
+          await message.delete()
+        }
+
+        if (message.content.startsWith("+wip")) {
+          await targetMessage.reactions.removeAll().catch(console.error);
+          await targetMessage.react("⚒").catch(console.error);
+          await message.delete()
+        }
+
+      }
+    }
+  }
+
+
+  /**
   * Call autoresponse to maatch the message
   */
   client.autoresponder.execute(message)
@@ -101,6 +140,7 @@ client.on("messageCreate", async (message) => {
   client.functions.forEach(func => {
     func.execute(message);
   });
+
 
   /**
   * Begin parsing if message is command

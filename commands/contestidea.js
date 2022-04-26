@@ -13,6 +13,8 @@ module.exports = {
   description: "Send Your Contest Ideas To A Dedicated Channel",
   usage: "Usage: " + `Send \`+%name% your idea\` In <#${botChannel}>`,
   async execute(message) {
+    return message.reply("RIP Contests...")
+
     if (!message.content.startsWith(`+${this.name}`)) return;
 
     if (message.content.substring(this.name.length + 1).trim() == "") return message.reply(this.usage.replace("%name%", this.name)).catch(console.error);
