@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js")
-const replitDB = require("@replit/database");
-const db = new replitDB()
+const { snipeDB } = require("../utils.js")
+
+console.log(snipeDB)
 
 module.exports = {
   name: "snipe",
@@ -9,7 +10,7 @@ module.exports = {
   description: "Get last message which is deleted with message Author and Image(If any)",
   async execute(message) {
     if (!message.content.startsWith(`+${this.name}`)) return;
-    const snipe = await db.get("snipe" + message.channel.id)
+    const snipe = await snipeDB.get("snipe" + message.channel.id)
     if (!snipe) return message.reply("There's nothing to snipe!")
 
     const embed = new MessageEmbed()
