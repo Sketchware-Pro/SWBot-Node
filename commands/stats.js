@@ -25,13 +25,13 @@ module.exports = {
       if (args[0]) {
         switch (args[0].toLowerCase()) {
           case "ping":
-            return message.reply(`${Math.round(client.ws.ping)}ms`)
+            return message.reply(`${Math.round(client.ws.ping)} ms`)
           case "uptime":
             return message.reply(duration)
           case "memory":
-            return message.reply(`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
+            return message.reply(`${(process.memoryUsage().heapUsed / 1000 / 1000).toFixed(
               2
-            )} Mb`)
+            )} MB`)
         }
       }
 
@@ -41,7 +41,7 @@ module.exports = {
       embed.addFields(
         {
           name: "Ping",
-          value: `┕\`${Math.round(client.ws.ping)}ms\``,
+          value: `┕\`${Math.round(client.ws.ping)} ms\``,
           inline: true,
         },
         {
@@ -51,9 +51,9 @@ module.exports = {
         },
         {
           name: "Memory",
-          value: `┕\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
+          value: `┕\`${(process.memoryUsage().heapUsed / 1000 / 1000).toFixed(
             2
-          )} Mb\``,
+          )} MB\``,
           inline: true,
         }
       );
@@ -61,7 +61,7 @@ module.exports = {
       embed.addFields(
         {
           name: "API Latency",
-          value: `┕\`${message.client.ws.ping}ms\``,
+          value: `┕\`${message.client.ws.ping} ms\``,
           inline: true,
         },
         {
@@ -70,7 +70,7 @@ module.exports = {
           inline: true,
         },
         {
-          name: "Node.Js",
+          name: "Node.js",
           value: `┕\`${process.version}\``,
           inline: true,
         }
