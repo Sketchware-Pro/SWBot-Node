@@ -70,7 +70,7 @@ module.exports = {
           inline: true,
         },
         {
-          name: "Node.Js",
+          name: "Node.js",
           value: `┕\`${process.version}\``,
           inline: true,
         }
