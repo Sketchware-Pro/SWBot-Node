@@ -25,7 +25,7 @@ module.exports = {
       if (args[0]) {
         switch (args[0].toLowerCase()) {
           case "ping":
-            return message.reply(`${Math.round(client.ws.ping)}ms`)
+            return message.reply(`${Math.round(client.ws.ping)} ms`)
           case "uptime":
             return message.reply(duration)
           case "memory":
@@ -41,7 +41,7 @@ module.exports = {
       embed.addFields(
         {
           name: "Ping",
-          value: `┕\`${Math.round(client.ws.ping)}ms\``,
+          value: `┕\`${Math.round(client.ws.ping)} ms\``,
           inline: true,
         },
         {
@@ -61,7 +61,7 @@ module.exports = {
       embed.addFields(
         {
           name: "API Latency",
-          value: `┕\`${message.client.ws.ping}ms\``,
+          value: `┕\`${message.client.ws.ping} ms\``,
           inline: true,
         },
         {
