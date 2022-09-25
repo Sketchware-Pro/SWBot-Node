@@ -1,11 +1,9 @@
 const { WebhookClient, MessageEmbed } = require("discord.js");
 const ideaChannel = process.env['ideaserverChn']
 const botChannel = process.env['botChannelId']
-const replitDB = require("@replit/database");
 const {
-  msToTime, getWebHook
-} = require("../utils");
-const db = new replitDB();
+  msToTime, getWebHook, snipeDB
+} = require("../utils.js");
 const ideaTimeout = 43200000; //12 hrs
 
 module.exports = {
