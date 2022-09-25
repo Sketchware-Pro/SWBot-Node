@@ -29,9 +29,9 @@ module.exports = {
           case "uptime":
             return message.reply(duration)
           case "memory":
-            return message.reply(`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
+            return message.reply(`${(process.memoryUsage().heapUsed / 1000 / 1000).toFixed(
               2
-            )} Mb`)
+            )} MB`)
         }
       }
 
@@ -51,9 +51,9 @@ module.exports = {
         },
         {
           name: "Memory",
-          value: `┕\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
+          value: `┕\`${(process.memoryUsage().heapUsed / 1000 / 1000).toFixed(
             2
-          )} Mb\``,
+          )} MB\``,
           inline: true,
         }
       );
