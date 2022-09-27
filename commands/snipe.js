@@ -1,8 +1,6 @@
 const { MessageEmbed } = require("discord.js")
 const { snipeDB } = require("../utils.js")
 
-console.log(snipeDB)
-
 module.exports = {
   name: "snipe",
   anychannel: true,
