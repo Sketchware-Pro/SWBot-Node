@@ -39,6 +39,10 @@ module.exports = {
 
       await ideaMsg.react("<:upvote:833702317098008646>")
       await ideaMsg.react("<:downvote:833702170306150440>")
+      await message.channel.send(`<@${message.author.id}>! Your idea had been posted to <#${ideaChannel}>`)
+            .then(msg => {
+                   setTimeout(() => msg.delete(), 5000)
+                }).catch(console.error);
       await message.delete();
       if (!message.member.permissions.has('MANAGE_MESSAGES'))
         await db.set(message.author.id + this.name, Date.now() + ideaTimeout);
