@@ -5,6 +5,7 @@ const {
   msToTime, getWebHook, snipeDB
 } = require("../utils.js");
 const ideaTimeout = 43200000; //12 hrs
+const db = snipeDB;
 
 module.exports = {
   name: "ideaserver",
