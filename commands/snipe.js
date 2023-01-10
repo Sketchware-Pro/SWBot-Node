@@ -9,13 +9,15 @@ module.exports = {
   async execute(message) {
     if (!message.content.startsWith(`+${this.name}`)) return;
 
+    snipeDB.reverse();
     let deleted = snipeDB[0]
     let snipe = await deleted.get("snipe" + message.channel.id)
 
     let parts = message.content.split(" ");
     let number = parts[1];
+    number = snipeDB.length-number
     if (number) {
-        deleted = snipeDB[number-1]
+        deleted = snipeDB[number]
         snipe = await deleted.get("snipe" + message.channel.id)
     }
 
