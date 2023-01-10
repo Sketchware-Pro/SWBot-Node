@@ -1,7 +1,7 @@
 /**
 *Util Class
 */
-const snipeDB = new Map();
+const snipeDB = []
 module.exports = {
   msToTime(ms) {
     let seconds = (ms / 1000).toFixed(1);

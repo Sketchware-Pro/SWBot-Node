@@ -10,7 +10,7 @@ const client = new Client({
   restTimeOffset: 0,
   intents: new Intents(32767) //Intents.ALL , yea im lazy 😔
 });
-const TOKEN = process.env['TOKEN']
+const TOKEN = "joe mama"
 client.login(TOKEN);
 client.commands = new Collection();
 client.functions = new Collection();
@@ -68,8 +68,8 @@ client.on('messageDelete', (message) => {
     (message.embeds.length && !message.content)) return;
   if (message.author.bot) return; // Ignore bots deletion
 
-
-  snipeDB.set("snipe" + [message.channel.id],
+  let snipeData = new Map();
+  snipeData.set("snipe" + [message.channel.id],
     {
       author: message.author,
       content: message.content,
@@ -79,6 +79,7 @@ client.on('messageDelete', (message) => {
         : null
     }
   );
+  snipeDB.push(snipeData);
 });
 
 /**
