@@ -29,6 +29,9 @@ module.exports = {
     hook = await channel.createWebhook("SWBot");
     return hook.url;
   },
+  isNumber(n) {
+    return !isNaN(parseFloat(n)) && !isNaN(n - 0);
+  },
 
   snipeDB,
 };

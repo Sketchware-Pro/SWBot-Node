@@ -4,6 +4,7 @@ const botChannelId = process.env["botChannelId"];
 const { readdirSync } = require("fs");
 const { join } = require("path");
 const { escapeRegex, snipeDB } = require("./utils");
+const { saveSnipeMessage } = require("./commands/snipe");
 const guildID = process.env["guildID"];
 
 const client = new Client({
@@ -71,18 +72,7 @@ client.on("guildMemberRemove", (member) => updateMembers(member.guild));
  */
 
 client.on("messageDelete", (message) => {
-  // content is null or deleted embed
-  if (message.partial || (message.embeds.length && !message.content)) return;
-  if (message.author.bot) return; // Ignore bots deletion
-
-  snipeDB.set("snipe" + [message.channel.id], {
-    author: message.author,
-    content: message.content,
-    createdAt: message.createdTimestamp,
-    image: message.attachments.first()
-      ? message.attachments.first().proxyURL
-      : null,
-  });
+  saveSnipeMessage(message);
 });
 
 /**
@@ -144,6 +134,3 @@ client.on("messageCreate", async (message) => {
 process.on("uncaughtException", function (error) {
   console.log(error.stack);
 });
-
-//KeepAlive (Removing since vps)
-//require("http").createServer((_, res) => res.end("Alive")).listen(8080)
