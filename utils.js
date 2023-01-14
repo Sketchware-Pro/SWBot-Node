@@ -1,6 +1,6 @@
 /**
-*Util Class
-*/
+ *Util Class
+ */
 const snipeDB = new Map();
 module.exports = {
   msToTime(ms) {
@@ -14,25 +14,21 @@ module.exports = {
     else return days + " Days";
   },
 
-
-
   escapeRegex(string) {
-    return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
   },
 
-  
   async getWebHook(client, channelId) {
-    channel = client.channels.cache.get(channelId)
+    let channel = client.channels.cache.get(channelId);
     // Fetch webhook
     hooks = await channel.fetchWebhooks();
     for (let hook of hooks) {
       if (hook[1].name.startsWith("SWBot")) return hook[1].url;
     }
     // Else Create a webhook for the current channel
-    hook = await channel.createWebhook("SWBot")
+    hook = await channel.createWebhook("SWBot");
     return hook.url;
   },
 
-snipeDB
-
+  snipeDB,
 };
