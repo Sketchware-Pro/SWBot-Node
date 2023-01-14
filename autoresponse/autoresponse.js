@@ -33,14 +33,6 @@ module.exports = {
         updateAutoResopnseData()
         return await message.reply("Autoresponses reloaded")
       }
-
-      require("./create").execute(message, autoResponsesList, updateAutoResopnseData, responseTimeout)
-      require("./delete").execute(message, autoResponsesList, updateAutoResopnseData, responseTimeout)
-      require("./edit").execute(message, autoResponsesList, updateAutoResopnseData, responseTimeout)
-      require("./setignored").execute(message, autoResponsesList, updateAutoResopnseData, responseTimeout)
-      require("./help").execute(message, autoResponsesList, responseTimeout)
-      require("./listall").execute(message, autoResponsesList)
-
     }
 
     /* ************************************************************* */

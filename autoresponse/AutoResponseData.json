@@ -1,0 +1,22 @@
+{
+  "(get )?(download|need|give|latest|version|link)( of)?( )?(sketchware|sk|sw)( pro)?( link)?( )?(latest|need|have)?": {
+    "response": "{Hi %author, if you want to download the latest official version of Sketchware Pro, please check <#790749668593631232>. For beta (unstable) official releases, check out <#827532594265587742>.\nWe also welcome contributions that can be found in <#810520395056152616>.}"
+  },
+  "(need|can|someone|guys|please|you|kindly)( )?(help|how to)( )?(anyone|someone|me|guys)?": {
+    "ignoredChannels": "<#790696157550477342><#814828261044650064>",
+    "response": "Hello %author, if you have questions, kindly ask in <#790696157550477342>."
+  },
+  "^rayen$": {
+    "response": "It's Mohammed Rayen Sbai. The one and only Rayen Sbai"
+  },
+  "^ameen$": { "response": "No ||pickerly|| Only Bottom Pics" },
+  "^dango$": { "response": "dang go brrrrrr" },
+  "^nicesapien$": { "response": "nikaspin" },
+  "^help": {
+    "ignoredChannels": "<#790696157550477342>  <#814828261044650064>",
+    "response": "Hi %author, if you have questions, kindly ask in <#790696157550477342>"
+  },
+  "(send|me|link)( for|of|to)? (sketchware) (pro|apk|app|latest)?": {
+    "response": "{Hi %author, if you want to download the latest official version of Sketchware Pro, please check <#790749668593631232>. For beta (unstable) official releases, check out <#827532594265587742>.\nWe also welcome contributions that can be found in <#810520395056152616>.}"
+  }
+}
