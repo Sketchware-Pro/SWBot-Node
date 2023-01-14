@@ -1,112 +1,117 @@
-require('dotenv').config()
+require("dotenv").config();
 const { Client, Collection, Intents } = require("discord.js");
-const botChannelId = process.env['botChannelId'];
+const botChannelId = process.env["botChannelId"];
 const { readdirSync } = require("fs");
 const { join } = require("path");
 const { escapeRegex, snipeDB } = require("./utils");
-const guildID = process.env['guildID']
+const guildID = process.env["guildID"];
 
 const client = new Client({
   restTimeOffset: 0,
-  intents: new Intents(32767) //Intents.ALL , yea im lazy 😔
+  intents: new Intents(32767), //Intents.ALL , yea im lazy 😔
 });
-const TOKEN = process.env['TOKEN']
+const TOKEN = process.env["TOKEN"];
 client.login(TOKEN);
 client.commands = new Collection();
 client.functions = new Collection();
 
-client.autoresponder = require(join(__dirname, "autoresponse", "autoresponse.js"));
+client.autoresponder = require(join(
+  __dirname,
+  "autoresponse",
+  "autoresponse.js"
+));
 
 /**
-* Client Events
-*/
+ * Client Events
+ */
 
 client.on("ready", () => {
   console.log(`${client.user.username} ready!`);
   client.user.setActivity("with your life | +help");
-  updateMembers(client.guilds.cache.get(guildID))
+  updateMembers(client.guilds.cache.get(guildID));
 });
 
 /**
-* Import all commands
-*/
-const commandFiles = readdirSync(join(__dirname, "commands")).filter((file) => file.endsWith(".js"));
+ * Import all commands
+ */
+const commandFiles = readdirSync(join(__dirname, "commands")).filter((file) =>
+  file.endsWith(".js")
+);
 for (const file of commandFiles) {
   const command = require(join(__dirname, "commands", `${file}`));
   client.commands.set(command.name, command);
 }
 
 /**
-* Import all functions
-*/
-const funcFiles = readdirSync(join(__dirname, "functions")).filter((file) => file.endsWith(".js"));
+ * Import all actions
+ */
+const funcFiles = readdirSync(join(__dirname, "actions")).filter((file) =>
+  file.endsWith(".js")
+);
 for (const file of funcFiles) {
-  const funct = require(join(__dirname, "functions", `${file}`));
+  const funct = require(join(__dirname, "actions", `${file}`));
   client.functions.set(funct.name.toLowerCase(), funct);
 }
 
 /**
-* Members Counter
-*/
-const counterChannelId = process.env['memberCounterChannelId']
+ * Members Counter
+ */
+const counterChannelId = process.env["memberCounterChannelId"];
 const updateMembers = (guild) => {
-  client.channels.fetch(counterChannelId).then(channel => {
-    channel.setName(`${guild.memberCount.toLocaleString()}-members`) //Allowed only 2 times every 10 min 😔
-  })
-}
+  client.channels.fetch(counterChannelId).then((channel) => {
+    channel.setName(`${guild.memberCount.toLocaleString()}-members`); //Allowed only 2 times every 10 min 😔
+  });
+};
 
-client.on('guildMemberAdd', (member) => updateMembers(member.guild))
-client.on('guildMemberRemove', (member) => updateMembers(member.guild))
+client.on("guildMemberAdd", (member) => updateMembers(member.guild));
+client.on("guildMemberRemove", (member) => updateMembers(member.guild));
 
 /**
-* Store Deleted Messages for Expo.. Umm, Sniping Purposes
-*/
+ * Store Deleted Messages for Expo.. Umm, Sniping Purposes
+ */
 
-client.on('messageDelete', (message) => {
+client.on("messageDelete", (message) => {
   // content is null or deleted embed
-  if (message.partial ||
-    (message.embeds.length && !message.content)) return;
+  if (message.partial || (message.embeds.length && !message.content)) return;
   if (message.author.bot) return; // Ignore bots deletion
 
-
-  snipeDB.set("snipe" + [message.channel.id],
-    {
-      author: message.author,
-      content: message.content,
-      createdAt: message.createdTimestamp,
-      image: message.attachments.first()
-        ? message.attachments.first().proxyURL
-        : null
-    }
-  );
+  snipeDB.set("snipe" + [message.channel.id], {
+    author: message.author,
+    content: message.content,
+    createdAt: message.createdTimestamp,
+    image: message.attachments.first()
+      ? message.attachments.first().proxyURL
+      : null,
+  });
 });
 
 /**
-* Handle & Execute Messages
-*/
+ * Handle & Execute Messages
+ */
 client.on("messageCreate", async (message) => {
   if (message.author.id == client.user.id) return;
   if (!message.guild) return;
   if (message.webhookId) return;
-  
-  /**
-  * Call autoresponse to maatch the message
-  */
-  client.autoresponder.execute(message)
 
   /**
-  * Looping through all the functions
-  */
-  client.functions.forEach(func => {
+   * Call autoresponse to maatch the message
+   */
+  client.autoresponder.execute(message);
+
+  /**
+   * Looping through all the functions
+   */
+  client.functions.forEach((func) => {
     func.execute(message);
   });
 
-
   /**
-  * Begin parsing if message is command
-  */
+   * Begin parsing if message is command
+   */
   //This basically means prefix is +
-  const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex("+")})\\s*`);
+  const prefixRegex = new RegExp(
+    `^(<@!?${client.user.id}>|${escapeRegex("+")})\\s*`
+  );
   if (!prefixRegex.test(message.content)) return;
 
   //TODO: Understand what this part does
@@ -116,14 +121,16 @@ client.on("messageCreate", async (message) => {
 
   const command =
     client.commands.get(commandName) ||
-    client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+    client.commands.find(
+      (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
+    );
 
   if (command) {
     if (!command.anychannel && message.channel.id != botChannelId) {
       if (!false) return message.reply(`Use <#${botChannelId}> else Nub`);
-      return message.reply(`Use <#${botChannelId}> else Nub`).then(msg => {
+      return message.reply(`Use <#${botChannelId}> else Nub`).then((msg) => {
         msg.delete({
-          timeout: 12000
+          timeout: 12000,
         });
       });
     }
@@ -132,9 +139,9 @@ client.on("messageCreate", async (message) => {
 });
 
 /*
-* Prevents bot from crashing if exception occurs
-*/
-process.on('uncaughtException', function(error) {
+ * Prevents bot from crashing if exception occurs
+ */
+process.on("uncaughtException", function (error) {
   console.log(error.stack);
 });
 
