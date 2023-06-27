@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { snipeDB, isNumber } = require("../utils.js");
-const HISTORY_SIZE = 10;
+const HISTORY_SIZE = 500;
 
 module.exports = {
   name: "snipe",
@@ -18,9 +18,9 @@ module.exports = {
     let snipeIndex = message.content.split(" ")[1];
     if (snipeIndex !== undefined) {
       if (!isNumber(snipeIndex))
-        return message.reply(`Snipe ${snipeIndex} doesn't exist yet!`);
+        return message.reply(`||joe mama||`);
       else if (snipeIndex > HISTORY_SIZE || snipeIndex < 0)
-        return message.reply(`Snipe **GET SOME HELP** doesn't exist yet!`);
+        return message.reply(`||joe mama||`);
     } else snipeIndex = 0;
 
     let snipe = snipeList[snipeIndex];
