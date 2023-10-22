@@ -18,7 +18,7 @@ module.exports = {
       
       await webhook.send({
       	content: newContent,
-        username: message.author.username,
+        username: message.member.nickname || message.author.username,
         avatarURL: message.author.avatarURL(),
       })
 

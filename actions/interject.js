@@ -1,4 +1,7 @@
-var interjectString = `$author would just like to interject for a moment. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
+const { WebhookClient } = require("discord.js");
+const { getWebHook } = require("../utils");
+
+var interjectString = `I would just like to interject for a moment. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system in itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
 Many computer users run a modified version of the GNU system every day, without realizing it. Through a peculiar turn of events, the version of GNU which is widely used today is often called Linux, and many of its users are not aware that it is basically the GNU system, developed by the GNU Project.
 
@@ -13,9 +16,14 @@ module.exports = {
       message.content.toLowerCase().trim() == "interject" ||
       message.content.toLowerCase().trim() == "+interject"
     ) {
-      await message.channel
-        .send(interjectString.replace("$author", `<@${message.author.id}>`))
-        .catch(console.error);
+      const webhook = await getWebHook(message.client, message.channel.id)
+      	.then((hookUrl) => (new WebhookClient({ url: hookUrl })));
+      
+      await webhook.send({
+      	content: interjectString,
+        username: message.member.nickname || message.author.username,
+        avatarURL: message.author.avatarURL(),
+      })
       return await message.delete();
     }
   },
