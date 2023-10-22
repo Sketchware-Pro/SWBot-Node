@@ -1,4 +1,7 @@
-var uninterjectString1 = `No, Richard, it's 'Linux', not 'GNU/Linux'. The most important contributions that the FSF made to Linux were the creation of the GPL and the GCC compiler. Those are fine and inspired products. GCC is a monumental achievement and has earned you, RMS, and the Free Software Foundation countless kudos and much appreciation.
+const { WebhookClient } = require("discord.js");
+const { getWebHook } = require("../utils");
+
+var uninterjectString1 = `No, $target, it's 'Linux', not 'GNU/Linux'. The most important contributions that the FSF made to Linux were the creation of the GPL and the GCC compiler. Those are fine and inspired products. GCC is a monumental achievement and has earned you, RMS, and the Free Software Foundation countless kudos and much appreciation.
 
 Following are some reasons for you to mull over, including some already answered in your FAQ.
 
@@ -16,15 +19,28 @@ module.exports = {
   usage: "Just `uninterject`",
   async execute(message) {
     if (
-      message.content.toLowerCase().trim() == "uninterject" ||
-      message.content.toLowerCase().trim() == "+uninterject"
+      message.content.toLowerCase().trim().startsWith("uninterject") ||
+      message.content.toLowerCase().trim().startsWith("+uninterject")
     ) {
-      await message.channel
-        .send(uninterjectString1.replace("$author", `<@${message.author.id}>`))
-        .catch(console.error);
-      await message.channel
-        .send(uninterjectString2.replace("$author", `<@${message.author.id}>`))
-        .catch(console.error);
+      const args = message.content.slice(this.name.length + 1).trim().split(/ +/);
+
+      let who = args[0];
+      who = who ? who : `<@${message.author.id}>`;
+
+      const webhook = await getWebHook(message.client, message.channel.id)
+      	.then((hookUrl) => (new WebhookClient({ url: hookUrl })));
+      
+      await webhook.send({
+      	content: uninterjectString1.replace("$target", who),
+        username: message.member.nickname || message.author.username,
+        avatarURL: message.author.avatarURL(),
+      })
+
+      await webhook.send({
+      	content: uninterjectString2.replace("$target", who),
+        username: message.member.nickname || message.author.username,
+        avatarURL: message.author.avatarURL(),
+      })
 
       return await message.delete();
     }

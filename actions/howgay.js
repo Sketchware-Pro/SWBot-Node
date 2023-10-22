@@ -4,7 +4,8 @@ function get_algorithomic_gay_count(input) {
   input = input.replace("<", "").replace(">", "").replace("@", "").replace("!", "").replace("&", "")
   if (input.match(/^[0-9]+$/))
     return (input.substring(6, 9) * input.substring(4, 12)) % 101
-  //not a mention, returning random
+  
+  // not a mention, returning random
   return Math.floor(Math.random() * 101)
 }
 
