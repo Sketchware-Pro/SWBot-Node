@@ -2,7 +2,7 @@
 This is a NodeJs Port Of https://github.com/Iyxan23/sw-bot
 Sketchware Pro's Discord SWBot written in NodeJS.
 
-# To Contribute 
+# To run it yourself
 Install NodeJS 16+
 
 ```
