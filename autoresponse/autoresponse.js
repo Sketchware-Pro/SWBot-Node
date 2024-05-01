@@ -38,9 +38,9 @@ module.exports = {
       //Reload data manually
       if (message.content == "+autoresponse reload") {
         let autoresponseLoaded = await updateAutoResopnseData();
-        if (!autoresponseLoaded) {
+        if (autoresponseLoaded != true) {
           return await message.reply(
-            "Autoresponse loading failed. " + autoresponseLoaded.message
+            "Autoresponse loading failed. " + autoresponseLoaded
           );
         }
         return await message.reply("Autoresponses reloaded");
