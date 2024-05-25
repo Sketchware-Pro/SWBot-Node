@@ -28,7 +28,7 @@
   "(send|me|link)( for|of|to)? (sketchware) (pro|apk|app|latest)?": {
     "response": "{Hi %author, if you want to download the latest official version of Sketchware Pro, please check <#790749668593631232>. For beta (unstable) official releases, check out <#827532594265587742>.\nWe also have frequent nightly (very unstable) builds for testing, more info on them here: https://discord.com/channels/790686719753846785/798250080913064007/1144847531617026058}"
   },
-  "(ask|asking) (to )?ask (a )?question": {
+  "(can|could|may) (you|someone|anyone|I) .*(help|question)": {
     "response": "Feel free to ask your question directly! We're here to help."
   }
 }
