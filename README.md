@@ -12,4 +12,4 @@ npm install
 Rename .env.example to .env and update with the required info.
 Then ``node .``
 
-You're welcome.
+You're welcome period
