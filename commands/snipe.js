@@ -16,10 +16,6 @@ module.exports = {
       return message.reply("There's nothing to snipe!");
     }
 
-    if (message.author.id == "672844584941912087") {
-      return message.reply("You're not allowed to use this command.");
-    }
-
     let snipeIndex = message.content.split(" ")[1];
     if (snipeIndex !== undefined) {
       if (!isNumber(snipeIndex)) {
