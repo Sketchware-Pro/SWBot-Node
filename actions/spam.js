@@ -8,12 +8,14 @@ module.exports = {
         const joinTime = member.joinedTimestamp;
         const now = Date.now();
       //  const joinAge = now - joinTime;
-       // const hasHyperlink = message.content.includes('http://') || message.content.includes('https://');
+       const hasHyperlink = message.content.includes('http://') || message.content.includes('https://');
+        if (hasHyperlink) {
             const userId = message.author.id;
             const messageData = {
                 content: message.content,
                 channelId: message.channel.id,
                 timestamp: now,
+            }
             if (!recentMessages.has(userId)) {
                 recentMessages.set(userId, []);
             }
