@@ -1,17 +1,22 @@
+require('dotenv').config();
 const { MessageEmbed } = require('discord.js');
 const recentMessages = new Map();
-const SPAM_CHANNEL_ID = '814828261044650064';
+const SPAM_CHANNEL_ID = process.env["botChannelId"];
 const TIMEOUT_DURATION = 2 * 60 * 1000;
 
 module.exports = {
     name: "Spam",
     description: "Advanced AI Algorithms to automatically prevent spam in the server.",
     async execute(message) {
+        if (message.author.bot) return;
+
         const member = message.member;
         const now = Date.now();
-        const hasHyperlink = message.content.includes('http://') || message.content.includes('https://');
 
-        if (hasHyperlink) {
+        const hasHyperlink = message.content.includes('http://') || message.content.includes('https://');
+        const hasAttachment = message.attachments.size > 0; 
+
+        if (hasHyperlink || hasAttachment) {
             const userId = message.author.id;
             const messageData = {
                 content: message.content,
@@ -31,15 +36,28 @@ module.exports = {
             const uniqueLinks = new Set(recentSpams.map(msg => msg.content));
 
             if (uniqueLinks.size === 1 && recentSpams.length >= 6) {
-                const promises = recentSpams.map(async (spamMsg) => {
-                    try {
-                        await message.channel.messages.delete(spamMsg.id);
-                    } catch (deleteError) {
-                        console.error(`Failed to delete message: ${deleteError}`);
+                
+                const messagesByChannel = new Map();
+                
+                recentSpams.forEach(msg => {
+                    if (!messagesByChannel.has(msg.channelId)) {
+                        messagesByChannel.set(msg.channelId, []);
                     }
+                    messagesByChannel.get(msg.channelId).push(msg.id);
                 });
 
-                await Promise.all(promises); // Delete all spam messages first
+                const deletePromises = [];
+
+                for (const [channelId, messageIds] of messagesByChannel) {
+                    const channel = message.guild.channels.cache.get(channelId);
+                    if (channel) {
+                        deletePromises.push(
+                            channel.bulkDelete(messageIds, true).catch(err => console.error(err))
+                        );
+                    }
+                }
+
+                await Promise.all(deletePromises);
 
                 const embed = new MessageEmbed()
                     .setColor('#FF0000')
@@ -48,15 +66,23 @@ module.exports = {
 
                 try {
                     await member.timeout(TIMEOUT_DURATION, 'Spamming');
-                    message.guild.channels.cache.get(SPAM_CHANNEL_ID).send({ embeds: [embed] });
+                    
+                    const logChannel = message.guild.channels.cache.get(SPAM_CHANNEL_ID);
+                    if (logChannel) logChannel.send({ embeds: [embed] });
+                    
                 } catch (timeoutError) {
-                    embed.setDescription(`Mute and Delete messages permission not found. Unable to timeout ${member} for spamming.`);
-                    message.guild.channels.cache.get(SPAM_CHANNEL_ID).send({ embeds: [embed] });
-                    console.error(`Timeout failed for ${member.user.tag}:`, timeoutError);
+                    embed.setDescription(`Mute/Delete permission missing. Unable to timeout ${member}.`);
+                    
+                    const logChannel = message.guild.channels.cache.get(SPAM_CHANNEL_ID);
+                    if (logChannel) logChannel.send({ embeds: [embed] });
+                    
+                    console.error(timeoutError);
                 }
 
                 recentMessages.delete(userId);
             }
+            
+            recentMessages.set(userId, recentSpams);
         }
     }
 };
